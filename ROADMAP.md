@@ -15,7 +15,7 @@
 - Reemplazar el test de arranque de Initializr por uno con el perfil `test` que verifica el `Clock` en UTC.
 - Verificar que la aplicación arranque y que `/` se vea.
 
-## Fase 2 — Clientes
+## Fase 2 — Clientes (completada)
 - Crear la entidad `Customer`, `CustomerRepository`, `CustomerForm`, `CustomerService`, `CustomerController` y las vistas `list` y `form`.
 - Rutas: `GET /customers`, `GET /customers/new`, `POST /customers`, `GET /customers/{id}/edit`, `POST /customers/{id}` y `POST /customers/{id}/delete`.
 - Validar nombre y email con los límites del SPECS §18 y mensajes en español.
@@ -23,7 +23,7 @@
 - Fijar `joinDate` con el `Clock` y `points = 0` al crear.
 - Botón de eliminar con confirmación.
 - Crear `GlobalExceptionHandler`, `CustomerNotFoundException`, `DuplicateEmailException` y la página `error.html`.
-- Tests unitarios de `CustomerService` con `Clock.fixed`: alta, email duplicado con distinto uso de mayúsculas, edición y cliente inexistente.
+- Tests unitarios de `CustomerService` con `Clock.fixed`: alta, email duplicado con distinto uso de mayúsculas, edición, cliente inexistente, recorte del nombre y traducción de la violación de unicidad de la base.
 
 ## Fase 3 — Compras y puntos
 - Crear la entidad `Purchase` con `@OnDelete(CASCADE)` hacia el cliente, `PurchaseRepository`, `PurchaseForm`, `PurchaseService` y `PurchaseController`, con las vistas `form` y `list`.

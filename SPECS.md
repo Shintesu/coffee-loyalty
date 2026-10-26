@@ -117,7 +117,7 @@ Una compra menor a USD 0.50 se registra con 0 puntos. El saldo del cliente aumen
 
 ### Cliente
 
-- El nombre es obligatorio (máximo 100).
+- El nombre es obligatorio (máximo 100) y se guarda sin espacios laterales.
 - El email es obligatorio, con formato válido (máximo 150).
 - El email es único sin distinguir mayúsculas: se guarda sin espacios laterales y en minúsculas.
 - La fecha de incorporación se registra automáticamente al crear el cliente.
@@ -431,7 +431,7 @@ guardar cliente y canje
 
 ## 15. Transacciones y concurrencia
 
-`register` de `PurchaseService` y `redeem` de `RedemptionService` son `@Transactional`: el movimiento y el saldo se guardan juntos o no se guarda nada. Las excepciones de negocio son sin chequear y revierten la transacción.
+`register` de `PurchaseService` y `redeem` de `RedemptionService` son `@Transactional`: el movimiento y el saldo se guardan juntos o no se guarda nada. Las excepciones de negocio son sin chequear y revierten la transacción. En los Services, los métodos de lectura son `@Transactional(readOnly = true)` y los de escritura, `@Transactional`.
 
 Ambos métodos leen al cliente con `findByIdForUpdate` (`SELECT ... FOR UPDATE`). Así, dos canjes simultáneos del mismo cliente (por ejemplo, un doble clic) se ejecutan en serie: el segundo ve el saldo ya descontado y se rechaza si no alcanza.
 
@@ -596,7 +596,7 @@ Excepciones de negocio, todas sin chequear, con el mensaje en español que ve la
 | `InsufficientPointsException` | Saldo menor al costo | "Ana Torres tiene 20 puntos y la recompensa Combo de café requiere 50." |
 
 - Los errores de formulario y los errores de negocio de un `POST` se muestran dentro del formulario.
-- `GlobalExceptionHandler` (un único `@ControllerAdvice`) atiende solo "no encontrado" y muestra la página `error` con estado 404.
+- `GlobalExceptionHandler` (un único `@ControllerAdvice`) atiende solo "no encontrado" y muestra la página `error` con estado 404. El mensaje de negocio viaja en el atributo `businessMessage` del modelo, no en el atributo `message` de Spring: así `error.html` nunca muestra textos técnicos de errores inesperados y, sin `businessMessage`, muestra un texto genérico en español.
 - Cualquier error inesperado muestra una página de error genérica. Nunca se muestra un stack trace, SQL ni mensajes del proveedor.
 - Los mensajes nunca contienen credenciales.
 
@@ -826,7 +826,7 @@ No se agrega nada fuera de esta lista. Sin Lombok ni DevTools. En Spring Boot 4 
 
 - Puntos: 0.49 → 0, 0.50 → 1, 9.49 → 9, 9.99 → 10, 10.00 → 10, 25.99 → 26, 1000.00 → 1000.
 - Compra: aumenta el saldo, guarda los puntos y rechaza un cliente inexistente.
-- Cliente: email duplicado (con distinto uso de mayúsculas), edición que excluye al propio cliente y borrado.
+- Cliente: email duplicado (con distinto uso de mayúsculas), traducción de la violación de unicidad de la base, nombre sin espacios laterales, edición que excluye al propio cliente y borrado.
 - Canje válido: descuenta el costo de la recompensa y lo guarda en el canje.
 - Canje con saldo insuficiente: el saldo no cambia y no se crea ningún canje.
 - Canje de recompensa inactiva: rechazado.
@@ -965,6 +965,12 @@ Rutas: `/customers`, `/purchases`, `/points`, `/rewards`, `/redemptions`. Tablas
 ---
 
 ## 34. Versión y registro de cambios
+
+### 1.3 — 2026-10-26
+
+- El nombre del cliente se guarda sin espacios laterales.
+- Los errores de negocio viajan en `businessMessage`; las lecturas de los Services son `readOnly`.
+- Se agrega el test de traducción de la violación de unicidad.
 
 ### 1.2 — 2026-10-26
 
