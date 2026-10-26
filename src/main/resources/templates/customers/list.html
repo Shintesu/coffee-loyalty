@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Clientes')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container">
+    <div class="page-header">
+        <h1>Clientes</h1>
+        <a class="button" th:href="@{/customers/new}">Nuevo cliente</a>
+    </div>
+    <p th:if="${#lists.isEmpty(customers)}">No hay clientes registrados.</p>
+    <table th:unless="${#lists.isEmpty(customers)}">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Fecha de incorporación</th>
+            <th>Saldo</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.name}">Ana Torres</td>
+            <td th:text="${customer.email}">ana@example.com</td>
+            <td th:text="${#temporals.format(customer.joinDate, 'dd/MM/yyyy')}">26/10/2026</td>
+            <td th:text="${customer.points}">0</td>
+            <td class="actions">
+                <a th:href="@{/customers/{id}/edit(id=${customer.id})}">Editar</a>
+                <form th:action="@{/customers/{id}/delete(id=${customer.id})}" method="post" class="inline-form">
+                    <button type="submit" class="link-button danger"
+                            onclick="return confirm('¿Eliminar este cliente y sus movimientos?')">
+                        Eliminar
+                    </button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

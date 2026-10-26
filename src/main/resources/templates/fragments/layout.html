@@ -15,5 +15,6 @@
     <a th:href="@{/rewards}">Recompensas</a>
     <a th:href="@{/redemptions}">Canjes</a>
 </nav>
+<div th:fragment="flash" th:if="${message}" class="flash" role="status" th:text="${message}"></div>
 </body>
 </html>
