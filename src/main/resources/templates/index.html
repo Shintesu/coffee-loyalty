@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Inicio')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<main class="container">
+    <h1>Tienda de Café</h1>
+    <p>Programa de fidelización: los clientes acumulan puntos con cada compra y los canjean por recompensas.</p>
+    <div class="cards">
+        <a class="card" th:href="@{/customers}"><h2>Clientes</h2><p>Altas, ediciones y saldo de puntos.</p></a>
+        <a class="card" th:href="@{/purchases}"><h2>Compras</h2><p>Registro de compras y puntos obtenidos.</p></a>
+        <a class="card" th:href="@{/points}"><h2>Puntos</h2><p>Saldo e historial de cada cliente.</p></a>
+        <a class="card" th:href="@{/rewards}"><h2>Recompensas</h2><p>Catálogo de recompensas disponibles.</p></a>
+        <a class="card" th:href="@{/redemptions}"><h2>Canjes</h2><p>Historial y registro de canjes.</p></a>
+    </div>
+</main>
+</body>
+</html>

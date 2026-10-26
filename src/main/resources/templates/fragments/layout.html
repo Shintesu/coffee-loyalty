@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${title} + ' · Tienda de Café'">Tienda de Café</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav th:fragment="nav" class="nav">
+    <a th:href="@{/}" class="brand">Tienda de Café</a>
+    <a th:href="@{/customers}">Clientes</a>
+    <a th:href="@{/purchases}">Compras</a>
+    <a th:href="@{/points}">Puntos</a>
+    <a th:href="@{/rewards}">Recompensas</a>
+    <a th:href="@{/redemptions}">Canjes</a>
+</nav>
+</body>
+</html>
