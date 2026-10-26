@@ -2,16 +2,17 @@
 
 > Cada fase debe cerrar con la aplicación funcionando, sus pruebas en verde y los tests de esa fase creados antes de avanzar a la siguiente. Al cerrarla, se agrega `(completada)` a su título.
 
-## Fase 1 — Inicializar el proyecto
-- Crear el proyecto con Spring Initializr en la raíz del repositorio (Java 21, Maven).
-- Agregar solo estas dependencias: Spring Web, Thymeleaf, Spring Data JPA, Validation y driver de PostgreSQL. Sin Lombok ni DevTools.
-- Anotar en SPECS §7 la versión de Spring Boot elegida.
+## Fase 1 — Inicializar el proyecto (completada)
+- Crear el proyecto con Spring Initializr en la raíz del repositorio (Java 21, Maven con Maven Wrapper).
+- Agregar solo estas dependencias: Spring Web, Thymeleaf, Spring Data JPA, Validation y driver de PostgreSQL. Sin Lombok ni DevTools. En Spring Boot 4 el starter web es `spring-boot-starter-webmvc` y las pruebas vienen en un starter por tecnología.
+- Anotar en SPECS §7 la versión de Spring Boot elegida (4.1.2).
 - Crear la estructura de paquetes de `com.example.coffeeloyalty`: `controller`, `service`, `repository`, `entity`, `dto`, `exception`, `config`.
 - Configurar `application.properties` y `application-test.properties` según el SPECS §20.
 - Crear las bases `coffee_loyalty` y `coffee_loyalty_test`.
 - Crear `ClockConfig` con `Clock.systemUTC()` (SPECS §21).
 - Crear el fragmento de navegación (`fragments/layout.html`), `style.css`, `index.html` y `HomeController`.
-- Crear `.gitignore` (sin `target/`, archivos del IDE ni credenciales).
+- Revisar el `.gitignore` que genera Initializr (debe excluir `target/`, archivos del IDE y credenciales) y borrar `HELP.md`.
+- Reemplazar el test de arranque de Initializr por uno con el perfil `test` que verifica el `Clock` en UTC.
 - Verificar que la aplicación arranque y que `/` se vea.
 
 ## Fase 2 — Clientes

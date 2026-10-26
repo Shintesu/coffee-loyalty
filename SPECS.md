@@ -185,14 +185,14 @@ Los controllers no llaman repositories ni modifican entidades persistentes. Las 
 | Tecnología | Uso |
 |---|---|
 | Java 21 LTS | Lenguaje principal |
-| Spring Boot (la versión estable que ofrezca Initializr; se anota aquí al crear el proyecto) | Framework principal |
+| Spring Boot 4.1.2 | Framework principal |
 | Spring Web / MVC | Controladores web |
 | Spring Data JPA + Hibernate | Persistencia |
 | PostgreSQL | Base de datos (local en desarrollo; Neon en la demo pública) |
 | Thymeleaf | Motor de vistas |
 | Bean Validation | Validaciones |
-| Maven | Gestión del proyecto |
-| JUnit 5, AssertJ y Mockito | Pruebas (vienen con Spring Boot Test) |
+| Maven (con Maven Wrapper, `./mvnw`) | Gestión del proyecto |
+| JUnit 6, AssertJ y Mockito | Pruebas (vienen con los starters de prueba de Spring Boot) |
 | HTML/CSS | Interfaz |
 | Docker | Solo para desplegar en Render (§30) |
 
@@ -791,15 +791,18 @@ Redirección a /points/{customerId} con mensaje
 ## 26. Dependencias Maven
 
 ```text
-spring-boot-starter-web
+spring-boot-starter-webmvc
 spring-boot-starter-thymeleaf
 spring-boot-starter-data-jpa
 spring-boot-starter-validation
 postgresql (runtime)
-spring-boot-starter-test (test)
+spring-boot-starter-webmvc-test (test)
+spring-boot-starter-thymeleaf-test (test)
+spring-boot-starter-data-jpa-test (test)
+spring-boot-starter-validation-test (test)
 ```
 
-No se agrega nada fuera de esta lista. Sin Lombok ni DevTools.
+No se agrega nada fuera de esta lista. Sin Lombok ni DevTools. En Spring Boot 4 el starter web se llama `webmvc` y las pruebas vienen en un starter por tecnología; juntos traen JUnit 6, AssertJ y Mockito.
 
 ---
 
@@ -816,7 +819,7 @@ No se agrega nada fuera de esta lista. Sin Lombok ni DevTools.
 
 ## 28. Estrategia de pruebas
 
-- **Unitarias de Services:** JUnit 5, AssertJ y Mockito; sin base de datos ni contexto Spring; `Clock.fixed`.
+- **Unitarias de Services:** JUnit 6, AssertJ y Mockito; sin base de datos ni contexto Spring; `Clock.fixed`.
 - **Integración:** contra la base PostgreSQL local `coffee_loyalty_test`, perfil `test`, `ddl-auto=create-drop`. Se crea la base antes de ejecutar las pruebas. Sin H2 ni Testcontainers.
 
 ### Pruebas prioritarias
@@ -924,7 +927,7 @@ Destino de la demo pública: Render, con datos ficticios.
 
 El proyecto está terminado cuando:
 
-- La aplicación compila, arranca y `mvn test` está en verde.
+- La aplicación compila, arranca y `./mvnw test` está en verde.
 - Se pueden registrar, editar y eliminar clientes desde la interfaz.
 - Se puede registrar una compra y los puntos se calculan según §4.
 - Se puede consultar el saldo y el historial.
@@ -962,6 +965,13 @@ Rutas: `/customers`, `/purchases`, `/points`, `/rewards`, `/redemptions`. Tablas
 ---
 
 ## 34. Versión y registro de cambios
+
+### 1.2 — 2026-10-26
+
+- Spring Boot 4.1.2, elegido por Spring Initializr al crear el proyecto (Fase 1).
+- Dependencias ajustadas a esa versión: `spring-boot-starter-webmvc` y un starter de prueba por tecnología.
+- JUnit 6 en lugar de JUnit 5.
+- Los comandos usan Maven Wrapper (`./mvnw`).
 
 ### 1.1 — 2026-10-25
 

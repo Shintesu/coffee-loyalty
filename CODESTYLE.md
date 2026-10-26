@@ -206,7 +206,7 @@ Adding one requires: an issue explaining why the existing stack cannot cover it,
 
 - **No Lombok and no DevTools.** Constructors, getters and setters are written by hand. That is part of the exercise.
 - Services and controllers use hand-written constructors for injection.
-- AssertJ and Mockito come bundled with Spring Boot Test and need no separate approval. SLF4J comes with Spring Boot.
+- AssertJ and Mockito come bundled with the Spring Boot test starters and need no separate approval. SLF4J comes with Spring Boot.
 - Docker is not a dependency of the code. A single `Dockerfile` is allowed for the Render deployment only (SPECS §30). No docker-compose, no CI/CD.
 
 ---
@@ -277,7 +277,7 @@ log.debug("registered purchase {} for customer {}", purchaseId, customerId);
 
 ## 10. Tests
 
-- JUnit 5, AssertJ and Mockito. Mockito is for unit tests of Services, replacing repositories. If a unit needs heavy mocking, the design is wrong.
+- JUnit 6, AssertJ and Mockito. Mockito is for unit tests of Services, replacing repositories. If a unit needs heavy mocking, the design is wrong.
 - Unit tests of Services run without a database or a Spring context, with `Clock.fixed` wherever dates matter.
 - Integration tests run against the local `coffee_loyalty_test` PostgreSQL database under the `test` profile. No H2, no Testcontainers (SPECS §28).
 - Test names are sentences: `rejectsRedemptionWhenBalanceIsTooLow`, `deletesPurchasesWhenTheCustomerIsDeleted`.
@@ -311,7 +311,7 @@ Copy this into the PR description:
 - [ ] Time comes from the injected Clock
 - [ ] Balance changes only in PurchaseService and RedemptionService, inside a transaction
 - [ ] No credentials in code, logs or exception messages
-- [ ] Tests added and mvn test is green
+- [ ] Tests added and ./mvnw test is green
 - [ ] SPECS.md and README.md updated if behavior changed
 ```
 
@@ -322,5 +322,5 @@ Copy this into the PR description:
 No formatter or linter is configured in this project. Everything above is caught in review. Reviewers are expected to cite the rule number.
 
 ```bash
-mvn test
+./mvnw test
 ```

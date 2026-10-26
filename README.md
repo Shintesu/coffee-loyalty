@@ -43,7 +43,7 @@ _Pendiente (Fase 8). Los archivos viven en `docs/`._
 - PostgreSQL (Neon en la demo pública)
 - Thymeleaf y HTML/CSS
 - Maven
-- JUnit 5, AssertJ y Mockito
+- JUnit 6, AssertJ y Mockito
 - Docker, solo para desplegar en Render
 
 Sin Lombok: getters, setters y constructores están escritos a mano.
@@ -89,7 +89,7 @@ Eliminar un cliente elimina sus compras y canjes (`ON DELETE CASCADE`). Las reco
 
 ## Cómo ejecutarlo
 
-Requisitos: Java 21, Maven 3.9 y PostgreSQL.
+Requisitos: Java 21 y PostgreSQL. El proyecto incluye Maven Wrapper, así que no hace falta instalar Maven.
 
 1. Define la contraseña de la base como variable de entorno (nunca se guarda en el repositorio):
 
@@ -107,7 +107,7 @@ Requisitos: Java 21, Maven 3.9 y PostgreSQL.
 3. Arranca la aplicación con datos de demo:
 
    ```bash
-   SPRING_PROFILES_ACTIVE=demo mvn spring-boot:run
+   SPRING_PROFILES_ACTIVE=demo ./mvnw spring-boot:run
    ```
 
 4. Abre `http://localhost:8080`.
@@ -129,7 +129,7 @@ Las fechas se registran y se muestran en UTC.
 ## Pruebas
 
 ```bash
-mvn test
+./mvnw test
 ```
 
 Necesita la base `coffee_loyalty_test` creada. Las pruebas unitarias de los Services usan `Clock.fixed` y Mockito; las de integración corren contra PostgreSQL local, sin H2 ni Testcontainers.

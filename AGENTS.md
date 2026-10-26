@@ -22,12 +22,12 @@ Si dos documentos se contradicen, gana el de menor número. Si el SPECS parece i
 Aplicación web monolítica en Java 21 con Spring Boot, Spring MVC, Thymeleaf, Spring Data JPA, PostgreSQL y Maven. Sin Lombok. Paquete base: `com.example.coffeeloyalty`.
 
 ```bash
-mvn spring-boot:run
-SPRING_PROFILES_ACTIVE=demo mvn spring-boot:run
-mvn test
+./mvnw spring-boot:run
+SPRING_PROFILES_ACTIVE=demo ./mvnw spring-boot:run
+./mvnw test
 ```
 
-Variables de entorno: `DB_PASSWORD` (obligatoria, sin valor por defecto), `DB_URL`, `DB_USERNAME`, `PORT` y `TEST_DB_URL` (opcionales, con valores por defecto para entorno local). `mvn test` necesita una base PostgreSQL local llamada `coffee_loyalty_test`; la aplicación usa `coffee_loyalty`.
+Variables de entorno: `DB_PASSWORD` (obligatoria, sin valor por defecto), `DB_URL`, `DB_USERNAME`, `PORT` y `TEST_DB_URL` (opcionales, con valores por defecto para entorno local). `./mvnw test` necesita una base PostgreSQL local llamada `coffee_loyalty_test`; la aplicación usa `coffee_loyalty`.
 
 ---
 
@@ -83,7 +83,7 @@ El despliegue en Render (con la base en Neon) es la Fase 9 y se configura desde 
 ## Forma de trabajo
 
 - Seguir el `ROADMAP.md` fase por fase. No empezar una fase sin cerrar la anterior.
-- Cerrar una fase significa que la aplicación arranca, `mvn test` está en verde y los tests de esa fase existen. Después, agregar `(completada)` al título de la fase en `ROADMAP.md`.
+- Cerrar una fase significa que la aplicación arranca, `./mvnw test` está en verde y los tests de esa fase existen. Después, agregar `(completada)` al título de la fase en `ROADMAP.md`.
 - Cambios pequeños y enfocados: una fase, un tema por commit.
 - Ante una ambigüedad entre lo pedido y el SPECS, preguntar en lugar de asumir.
 
@@ -91,7 +91,7 @@ El despliegue en Render (con la base en Neon) es la Fase 9 y se configura desde 
 
 ## Definición de terminado
 
-- [ ] Compila y `mvn test` pasa
+- [ ] Compila y `./mvnw test` pasa
 - [ ] La aplicación arranca y el flujo afectado funciona en el navegador
 - [ ] Respeta las reglas del proyecto y el CODESTYLE
 - [ ] Sin credenciales, sin `System.out`, sin código comentado, sin Lombok
