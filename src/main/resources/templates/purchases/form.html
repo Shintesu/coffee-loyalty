@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Registrar compra')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container">
+    <h1>Registrar compra</h1>
+    <form th:action="@{/purchases}" th:object="${purchaseForm}" method="post" class="form">
+        <div class="field">
+            <label for="customerId">Cliente</label>
+            <select id="customerId" th:field="*{customerId}">
+                <option value="">Seleccione un cliente</option>
+                <option th:each="customer : ${customers}"
+                        th:value="${customer.id}"
+                        th:text="|${customer.name} · ${customer.points} puntos|">Ana Torres · 0 puntos</option>
+            </select>
+            <p class="error" th:if="${#fields.hasErrors('customerId')}" th:errors="*{customerId}">Seleccione un cliente.</p>
+        </div>
+        <div class="field">
+            <label for="amount">Monto (USD)</label>
+            <input type="number" id="amount" th:field="*{amount}" step="0.01" min="0.01" max="1000.00">
+            <p class="error" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">El monto es obligatorio.</p>
+        </div>
+        <p>1 punto por cada dólar, redondeado al más cercano.</p>
+        <div class="actions">
+            <button type="submit" class="button">Registrar compra</button>
+            <a th:href="@{/purchases}">Cancelar</a>
+        </div>
+    </form>
+</main>
+</body>
+</html>

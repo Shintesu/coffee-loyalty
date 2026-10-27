@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Puntos')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container">
+    <h1>Puntos</h1>
+    <p th:if="${#lists.isEmpty(customers)}">No hay clientes registrados.</p>
+    <table th:unless="${#lists.isEmpty(customers)}">
+        <thead>
+        <tr>
+            <th>Cliente</th>
+            <th>Saldo</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="customer : ${customers}">
+            <td th:text="${customer.name}">Ana Torres</td>
+            <td th:text="|${customer.points} puntos|">0 puntos</td>
+            <td><a th:href="@{/points/{id}(id=${customer.id})}">Ver detalle</a></td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
