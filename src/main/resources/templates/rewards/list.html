@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Recompensas')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container">
+    <h1>Recompensas</h1>
+    <p th:if="${#lists.isEmpty(rewards)}">No hay recompensas disponibles.</p>
+    <table th:unless="${#lists.isEmpty(rewards)}">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Costo</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="reward : ${rewards}">
+            <td th:text="${reward.name}">Café americano</td>
+            <td th:text="${reward.description}">Un café americano de la casa.</td>
+            <td th:text="|${reward.requiredPoints} puntos|">10 puntos</td>
+            <td class="actions">
+                <a class="button" th:href="@{/redemptions/new(rewardId=${reward.id})}">Canjear</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
