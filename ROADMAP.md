@@ -25,7 +25,7 @@
 - Crear `GlobalExceptionHandler`, `CustomerNotFoundException`, `DuplicateEmailException` y la página `error.html`.
 - Tests unitarios de `CustomerService` con `Clock.fixed`: alta, email duplicado con distinto uso de mayúsculas, edición, cliente inexistente, recorte del nombre y traducción de la violación de unicidad de la base.
 
-## Fase 3 — Compras y puntos
+## Fase 3 — Compras y puntos (completada)
 - Crear la entidad `Purchase` con `@OnDelete(CASCADE)` hacia el cliente, `PurchaseRepository`, `PurchaseForm`, `PurchaseService` y `PurchaseController`, con las vistas `form` y `list`.
 - Agregar `CustomerRepository.findByIdForUpdate` con bloqueo pesimista de escritura (SPECS §15).
 - Calcular los puntos con `setScale(0, RoundingMode.HALF_UP)` según el SPECS §4, dentro de una transacción que guarda la compra y actualiza el saldo.

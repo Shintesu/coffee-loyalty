@@ -468,6 +468,8 @@ GET  /purchases/new
 POST /purchases
 ```
 
+`GET /purchases/new` acepta el parámetro opcional `customerId`, que preselecciona al cliente (lo usa el atajo del detalle de puntos). Si no coincide con ningún cliente, simplemente no se preselecciona; el 404 se reserva para el `POST` cuando el cliente ya no existe.
+
 ### Puntos
 
 ```http
@@ -965,6 +967,10 @@ Rutas: `/customers`, `/purchases`, `/points`, `/rewards`, `/redemptions`. Tablas
 ---
 
 ## 34. Versión y registro de cambios
+
+### 1.4 — 2026-10-27
+
+- `GET /purchases/new` acepta el parámetro opcional `customerId`.
 
 ### 1.3 — 2026-10-26
 
