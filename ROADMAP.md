@@ -35,7 +35,7 @@
 - Verificar con `\d purchases` que la clave foránea tenga `ON DELETE CASCADE`.
 - Tests: cálculo de puntos en los bordes (0.49, 0.50, 9.49, 9.99, 10.00, 25.99, 1000.00), cliente inexistente, y un test de integración que verifica que eliminar un cliente elimina sus compras.
 
-## Fase 4 — Recompensas
+## Fase 4 — Recompensas (completada)
 - Crear la entidad `Reward`, `RewardRepository`, `RewardService`, `RewardController` y la vista `rewards/list`, con el botón **Canjear** que enlaza a `/redemptions/new?rewardId={id}`.
 - Crear `RewardSeeder` (perfil `!test`, idempotente) con las cuatro recompensas del SPECS §22.
 - El catálogo muestra solo las recompensas activas.
