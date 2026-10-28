@@ -493,7 +493,7 @@ GET  /redemptions/new
 POST /redemptions
 ```
 
-`GET /redemptions/new` acepta el parámetro opcional `rewardId`, que preselecciona la recompensa (lo usa el botón "Canjear" del catálogo).
+`GET /redemptions/new` acepta los parámetros opcionales `rewardId` (lo usa el botón "Canjear" del catálogo) y `customerId` (lo usa el atajo del detalle de puntos), que preseleccionan la recompensa y el cliente. No se valida su existencia: si no coinciden con ningún registro, simplemente no se preselecciona; el 404 se reserva para el `POST`.
 
 ### Redirecciones tras éxito
 
@@ -502,7 +502,7 @@ POST /redemptions
 | Crear o editar cliente | `/customers` | Confirmación |
 | Eliminar cliente | `/customers` | Confirmación |
 | Registrar compra | `/points/{customerId}` | Puntos obtenidos y saldo |
-| Registrar canje | `/points/{customerId}` | Recompensa canjeada y saldo |
+| Registrar canje | `/points/{customerId}` | "Canje registrado correctamente. Recompensa: NOMBRE. Puntos gastados: N. Saldo actual: M." |
 
 Los errores de validación y los errores de negocio (email duplicado, recompensa inactiva, saldo insuficiente) se muestran dentro del formulario, conservando lo escrito.
 
@@ -967,6 +967,11 @@ Rutas: `/customers`, `/purchases`, `/points`, `/rewards`, `/redemptions`. Tablas
 ---
 
 ## 34. Versión y registro de cambios
+
+### 1.5 — 2026-10-28
+
+- `GET /redemptions/new` acepta los parámetros opcionales `rewardId` y `customerId`.
+- Se fija el mensaje exacto tras un canje.
 
 ### 1.4 — 2026-10-27
 

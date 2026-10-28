@@ -41,14 +41,14 @@
 - El catálogo muestra solo las recompensas activas.
 - Tests: listado de activas e inactivas, y la idempotencia del seeder.
 
-## Fase 5 — Canjes
+## Fase 5 — Canjes (completada)
 - Crear la entidad `Redemption` con `@OnDelete(CASCADE)` hacia el cliente y sin cascada hacia la recompensa, `RedemptionRepository`, `RedemptionForm`, `RedemptionService` y `RedemptionController`, con las vistas `form` y `list`.
 - Validar recompensa activa y saldo suficiente; tomar el costo de la recompensa y guardarlo en el canje; todo en una transacción con el cliente bloqueado.
 - Crear `InactiveRewardException`, `InsufficientPointsException` y `RewardNotFoundException`, con mensajes en español que nombren al cliente y a la recompensa.
 - Mostrar los errores de negocio dentro del formulario, conservando la selección.
 - Mostrar en cada opción el saldo del cliente y el costo de la recompensa.
 - Agregar el historial de canjes a `points/detail`.
-- Rutas: `GET /redemptions`, `GET /redemptions/new` (con `rewardId` opcional) y `POST /redemptions`.
+- Rutas: `GET /redemptions`, `GET /redemptions/new` (con `rewardId` y `customerId` opcionales) y `POST /redemptions`.
 - Verificar con `\d redemptions` la cascada hacia el cliente y la ausencia de cascada hacia la recompensa.
 - Tests: canje válido, saldo insuficiente sin cambios, recompensa inactiva, reversión de la transacción, cascada al eliminar un cliente y dos canjes simultáneos que superan el saldo.
 
