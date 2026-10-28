@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.coffeeloyalty.entity.Customer;
 import com.example.coffeeloyalty.service.CustomerService;
 import com.example.coffeeloyalty.service.PurchaseService;
+import com.example.coffeeloyalty.service.RedemptionService;
 
 @Controller
 @RequestMapping("/points")
@@ -16,10 +17,13 @@ public class PointsController {
 
     private final CustomerService customerService;
     private final PurchaseService purchaseService;
+    private final RedemptionService redemptionService;
 
-    public PointsController(CustomerService customerService, PurchaseService purchaseService) {
+    public PointsController(CustomerService customerService, PurchaseService purchaseService,
+            RedemptionService redemptionService) {
         this.customerService = customerService;
         this.purchaseService = purchaseService;
+        this.redemptionService = redemptionService;
     }
 
     @GetMapping
@@ -33,6 +37,7 @@ public class PointsController {
         Customer customer = customerService.findById(customerId);
         model.addAttribute("customer", customer);
         model.addAttribute("purchases", purchaseService.findByCustomerId(customerId));
+        model.addAttribute("redemptions", redemptionService.findByCustomerId(customerId));
         return "points/detail";
     }
 }

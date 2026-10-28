@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Canjes')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: nav}"></nav>
+<div th:replace="~{fragments/layout :: flash}"></div>
+<main class="container">
+    <div class="page-header">
+        <h1>Canjes</h1>
+        <a class="button" th:href="@{/redemptions/new}">Registrar canje</a>
+    </div>
+    <p th:if="${#lists.isEmpty(redemptions)}">No hay canjes registrados.</p>
+    <table th:unless="${#lists.isEmpty(redemptions)}">
+        <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Cliente</th>
+            <th>Recompensa</th>
+            <th>Puntos gastados</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="redemption : ${redemptions}">
+            <td th:text="${#temporals.format(redemption.createdAt, 'dd/MM/yyyy HH:mm')}">26/10/2026 15:30</td>
+            <td th:text="${redemption.customer.name}">Ana Torres</td>
+            <td th:text="${redemption.reward.name}">Postre del día</td>
+            <td th:text="${redemption.pointsSpent}">30</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
