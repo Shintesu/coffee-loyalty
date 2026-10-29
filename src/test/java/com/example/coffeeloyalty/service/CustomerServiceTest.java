@@ -149,6 +149,55 @@ class CustomerServiceTest {
                 .hasCause(constraintViolation);
     }
 
+    @Test
+    void deletesExistingCustomer() {
+        Customer customer = customer(1L, "Ana Torres", "ana@example.com", 0, LocalDate.of(2026, 1, 10));
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
+
+        customerService.delete(1L);
+
+        verify(customerRepository).delete(customer);
+    }
+
+    @Test
+    void throwsWhenDeletingCustomerThatDoesNotExist() {
+        when(customerRepository.findById(7L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> customerService.delete(7L))
+                .isInstanceOf(CustomerNotFoundException.class)
+                .hasMessage("No existe el cliente con id 7.");
+
+        verify(customerRepository, never()).delete(any(Customer.class));
+    }
+
+    @Test
+    void translatesDuplicateEmailConstraintViolationWhenUpdatingCustomer() {
+        Customer customer = customer(1L, "Ana Torres", "ana@example.com", 0, LocalDate.of(2026, 1, 10));
+        CustomerForm form = form("Ana Torres", "luis@example.com");
+        DataIntegrityViolationException constraintViolation = new DataIntegrityViolationException("duplicate email");
+        when(customerRepository.findById(1L)).thenReturn(Optional.of(customer));
+        when(customerRepository.existsByEmailAndIdNot("luis@example.com", 1L)).thenReturn(false);
+        when(customerRepository.saveAndFlush(customer)).thenThrow(constraintViolation);
+
+        assertThatThrownBy(() -> customerService.update(1L, form))
+                .isInstanceOf(DuplicateEmailException.class)
+                .hasMessage("Ya existe un cliente con el email luis@example.com.")
+                .hasCause(constraintViolation);
+    }
+
+    @Test
+    void throwsWhenUpdatingCustomerThatDoesNotExist() {
+        CustomerForm form = form("Ana Torres", "ana@example.com");
+        when(customerRepository.findById(7L)).thenReturn(Optional.empty());
+
+        assertThatThrownBy(() -> customerService.update(7L, form))
+                .isInstanceOf(CustomerNotFoundException.class)
+                .hasMessage("No existe el cliente con id 7.");
+
+        verify(customerRepository, never()).existsByEmailAndIdNot(any(), any());
+        verify(customerRepository, never()).saveAndFlush(any(Customer.class));
+    }
+
     private CustomerForm form(String name, String email) {
         CustomerForm form = new CustomerForm();
         form.setName(name);
