@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head(${customerId != null ? 'Editar cliente' : 'Nuevo cliente'})}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: nav}"></nav>
+<nav th:replace="~{fragments/layout :: nav('customers')}"></nav>
 <div th:replace="~{fragments/layout :: flash}"></div>
 <main class="container">
     <h1 th:text="${customerId != null ? 'Editar cliente' : 'Nuevo cliente'}">Nuevo cliente</h1>
@@ -19,8 +19,8 @@
             <p class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">El email no es válido.</p>
         </div>
         <div class="actions">
-            <button type="submit" class="button">Guardar</button>
-            <a th:href="@{/customers}">Cancelar</a>
+            <button type="submit" class="button primary">Guardar</button>
+            <a class="button secondary" th:href="@{/customers}">Cancelar</a>
         </div>
     </form>
 </main>

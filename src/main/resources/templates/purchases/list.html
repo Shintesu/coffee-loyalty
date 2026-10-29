@@ -2,32 +2,34 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Compras')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: nav}"></nav>
+<nav th:replace="~{fragments/layout :: nav('purchases')}"></nav>
 <div th:replace="~{fragments/layout :: flash}"></div>
 <main class="container">
     <div class="page-header">
         <h1>Compras</h1>
-        <a class="button" th:href="@{/purchases/new}">Registrar compra</a>
+        <a class="button primary" th:href="@{/purchases/new}">Registrar compra</a>
     </div>
-    <p th:if="${#lists.isEmpty(purchases)}">No hay compras registradas.</p>
-    <table th:unless="${#lists.isEmpty(purchases)}">
-        <thead>
-        <tr>
-            <th>Fecha</th>
-            <th>Cliente</th>
-            <th>Monto</th>
-            <th>Puntos obtenidos</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="purchase : ${purchases}">
-            <td th:text="${#temporals.format(purchase.createdAt, 'dd/MM/yyyy HH:mm')}">26/10/2026 15:30</td>
-            <td th:text="${purchase.customer.name}">Ana Torres</td>
-            <td th:text="${'$' + #numbers.formatDecimal(purchase.amount, 1, 'COMMA', 2, 'POINT')}">$9.99</td>
-            <td th:text="${purchase.pointsEarned}">10</td>
-        </tr>
-        </tbody>
-    </table>
+    <p class="empty" th:if="${#lists.isEmpty(purchases)}">No hay compras registradas.</p>
+    <div class="table-wrapper" th:unless="${#lists.isEmpty(purchases)}">
+        <table>
+            <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th class="numeric">Monto</th>
+                <th class="numeric">Puntos obtenidos</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="purchase : ${purchases}">
+                <td th:text="${#temporals.format(purchase.createdAt, 'dd/MM/yyyy HH:mm')}">26/10/2026 15:30</td>
+                <td th:text="${purchase.customer.name}">Ana Torres</td>
+                <td class="numeric" th:text="${'$' + #numbers.formatDecimal(purchase.amount, 1, 'COMMA', 2, 'POINT')}">$9.99</td>
+                <td class="numeric" th:text="${purchase.pointsEarned}">10</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Registrar compra')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: nav}"></nav>
+<nav th:replace="~{fragments/layout :: nav('purchases')}"></nav>
 <div th:replace="~{fragments/layout :: flash}"></div>
 <main class="container">
     <h1>Registrar compra</h1>
@@ -22,10 +22,10 @@
             <input type="number" id="amount" th:field="*{amount}" step="0.01" min="0.01" max="1000.00">
             <p class="error" th:if="${#fields.hasErrors('amount')}" th:errors="*{amount}">El monto es obligatorio.</p>
         </div>
-        <p>1 punto por cada dólar, redondeado al más cercano.</p>
+        <p class="hint">1 punto por cada dólar, redondeado al más cercano.</p>
         <div class="actions">
-            <button type="submit" class="button">Registrar compra</button>
-            <a th:href="@{/purchases}">Cancelar</a>
+            <button type="submit" class="button primary">Registrar compra</button>
+            <a class="button secondary" th:href="@{/purchases}">Cancelar</a>
         </div>
     </form>
 </main>

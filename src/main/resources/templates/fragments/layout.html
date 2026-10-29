@@ -7,14 +7,20 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<nav th:fragment="nav" class="nav">
-    <a th:href="@{/}" class="brand">Tienda de Café</a>
-    <a th:href="@{/customers}">Clientes</a>
-    <a th:href="@{/purchases}">Compras</a>
-    <a th:href="@{/points}">Puntos</a>
-    <a th:href="@{/rewards}">Recompensas</a>
-    <a th:href="@{/redemptions}">Canjes</a>
+<nav th:fragment="nav(active)" class="nav">
+    <a th:href="@{/}" th:class="${active == 'home'} ? 'active' : null"
+       th:attr="aria-current=${active == 'home'} ? 'page' : null">Tienda de Café</a>
+    <a th:href="@{/customers}" th:class="${active == 'customers'} ? 'active' : null"
+       th:attr="aria-current=${active == 'customers'} ? 'page' : null">Clientes</a>
+    <a th:href="@{/purchases}" th:class="${active == 'purchases'} ? 'active' : null"
+       th:attr="aria-current=${active == 'purchases'} ? 'page' : null">Compras</a>
+    <a th:href="@{/points}" th:class="${active == 'points'} ? 'active' : null"
+       th:attr="aria-current=${active == 'points'} ? 'page' : null">Puntos</a>
+    <a th:href="@{/rewards}" th:class="${active == 'rewards'} ? 'active' : null"
+       th:attr="aria-current=${active == 'rewards'} ? 'page' : null">Recompensas</a>
+    <a th:href="@{/redemptions}" th:class="${active == 'redemptions'} ? 'active' : null"
+       th:attr="aria-current=${active == 'redemptions'} ? 'page' : null">Canjes</a>
 </nav>
-<div th:fragment="flash" th:if="${message}" class="flash" role="status" th:text="${message}"></div>
+<div th:fragment="flash" th:if="${message}" class="flash flash-success" role="status" th:text="${message}"></div>
 </body>
 </html>

@@ -2,27 +2,29 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Puntos')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: nav}"></nav>
+<nav th:replace="~{fragments/layout :: nav('points')}"></nav>
 <div th:replace="~{fragments/layout :: flash}"></div>
 <main class="container">
     <h1>Puntos</h1>
-    <p th:if="${#lists.isEmpty(customers)}">No hay clientes registrados.</p>
-    <table th:unless="${#lists.isEmpty(customers)}">
-        <thead>
-        <tr>
-            <th>Cliente</th>
-            <th>Saldo</th>
-            <th>Acciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="customer : ${customers}">
-            <td th:text="${customer.name}">Ana Torres</td>
-            <td th:text="|${customer.points} puntos|">0 puntos</td>
-            <td><a th:href="@{/points/{id}(id=${customer.id})}">Ver detalle</a></td>
-        </tr>
-        </tbody>
-    </table>
+    <p class="empty" th:if="${#lists.isEmpty(customers)}">No hay clientes registrados.</p>
+    <div class="table-wrapper" th:unless="${#lists.isEmpty(customers)}">
+        <table>
+            <thead>
+            <tr>
+                <th>Cliente</th>
+                <th class="numeric">Saldo</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="customer : ${customers}">
+                <td th:text="${customer.name}">Ana Torres</td>
+                <td class="numeric" th:text="|${customer.points} puntos|">0 puntos</td>
+                <td><a th:href="@{/points/{id}(id=${customer.id})}">Ver detalle</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </main>
 </body>
 </html>

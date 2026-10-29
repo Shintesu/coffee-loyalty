@@ -2,11 +2,14 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/layout :: head('Registrar canje')}"></head>
 <body>
-<nav th:replace="~{fragments/layout :: nav}"></nav>
+<nav th:replace="~{fragments/layout :: nav('redemptions')}"></nav>
 <div th:replace="~{fragments/layout :: flash}"></div>
 <main class="container">
     <h1>Registrar canje</h1>
     <form th:action="@{/redemptions}" th:object="${redemptionForm}" method="post" class="form">
+        <div class="form-errors" th:if="${#fields.hasGlobalErrors()}" role="alert">
+            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">La recompensa no está disponible.</p>
+        </div>
         <div class="field">
             <label for="customerId">Cliente</label>
             <select id="customerId" th:field="*{customerId}">
@@ -27,12 +30,9 @@
             </select>
             <p class="error" th:if="${#fields.hasErrors('rewardId')}" th:errors="*{rewardId}">Seleccione una recompensa.</p>
         </div>
-        <div class="error" th:if="${#fields.hasGlobalErrors()}">
-            <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">La recompensa no está disponible.</p>
-        </div>
         <div class="actions">
-            <button type="submit" class="button">Canjear</button>
-            <a th:href="@{/redemptions}">Cancelar</a>
+            <button type="submit" class="button primary">Canjear</button>
+            <a class="button secondary" th:href="@{/redemptions}">Cancelar</a>
         </div>
     </form>
 </main>
