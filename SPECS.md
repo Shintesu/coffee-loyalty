@@ -845,7 +845,7 @@ No se agrega nada fuera de esta lista. Sin Lombok ni DevTools. En Spring Boot 4 
 - Coherencia: el saldo es igual a los puntos de las compras menos los puntos de los canjes.
 - Concurrencia: dos canjes simultáneos que juntos superan el saldo; uno se rechaza (integración).
 
-Las rutas y plantillas se verifican recorriendo los escenarios de §29.
+Las rutas y plantillas se verifican con pruebas de humo web (`MockMvc`), que comprueban el estado y los mensajes clave de cada ruta y los errores de validación y de negocio de los formularios, y recorriendo los escenarios de §29.
 
 ---
 
@@ -975,6 +975,11 @@ Rutas: `/customers`, `/purchases`, `/points`, `/rewards`, `/redemptions`. Tablas
 ---
 
 ## 34. Versión y registro de cambios
+
+### 1.7 — 2026-10-29
+
+- Pruebas de humo web y de coherencia del saldo.
+- Pulido visual: menú con la sección activa, formularios y tablas.
 
 ### 1.6 — 2026-10-28
 

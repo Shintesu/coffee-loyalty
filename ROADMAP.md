@@ -58,8 +58,9 @@
 - No incluir un cliente llamado Sebastián (el escenario A del SPECS §29 lo registra).
 - Preparar los tres escenarios del SPECS §29.
 
-## Fase 7 — Pruebas y pulido
+## Fase 7 — Pruebas y pulido (completada)
 - Completar los tests prioritarios del SPECS §28 que falten.
+- Agregar pruebas de humo web con `MockMvc`: estado y mensajes clave de cada ruta, y los errores de validación y de negocio de los formularios.
 - Verificar la coherencia del saldo: puntos de las compras menos puntos de los canjes.
 - Revisar validaciones, mensajes en español y navegación entre pantallas.
 - Mejorar la presentación visual sin sobrecargar el proyecto.
