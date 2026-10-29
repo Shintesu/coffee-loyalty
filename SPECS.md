@@ -655,7 +655,7 @@ Las fechas se muestran en UTC (Render corre en UTC); el README lo indica.
 Dos componentes en el paquete `config`, ambos idempotentes y ejecutados con `CommandLineRunner`:
 
 - **`RewardSeeder`** (perfil `!test`, primero): inserta las recompensas solo si la tabla `rewards` está vacía. Como no hay CRUD de recompensas, la aplicación necesita este catálogo en cualquier ejecución que no sea de pruebas.
-- **`DemoDataLoader`** (perfil `demo`, después): si la tabla `customers` está vacía, crea tres clientes ficticios a través de los Services, de modo que los saldos son coherentes con sus movimientos.
+- **`DemoDataLoader`** (perfil `demo`, `@Order(2)`, después): si no existe ningún cliente, crea tres clientes ficticios a través de los Services, de modo que los saldos son coherentes con sus movimientos. La carga es todo o nada: se ejecuta en una sola transacción (`TransactionTemplate`), así que un fallo, como la ausencia de la recompensa Café americano, no deja datos parciales.
 
 ### Recompensas iniciales
 
@@ -670,7 +670,15 @@ Todas activas.
 
 ### Clientes de ejemplo
 
-Ana Torres, Luis Mendoza y María Pérez (emails `@example.com`): uno con saldo suficiente para canjear, uno con saldo bajo y uno sin movimientos. Ninguno se llama Sebastián, para que el escenario de §29 pueda registrarlo.
+Todos con email `@example.com`:
+
+| Cliente | Movimientos | Saldo |
+|---|---|---:|
+| Ana Torres (`ana.torres@example.com`) | Compras de $42.50, $18.00 y $9.99 (43, 18 y 10 puntos) y un canje de Café americano | 61 |
+| Luis Mendoza (`luis.mendoza@example.com`) | Una compra de $4.50 (5 puntos) | 5 |
+| María Pérez (`maria.perez@example.com`) | Ninguno | 0 |
+
+Ana tiene saldo suficiente para canjear, Luis tiene saldo bajo y María no tiene movimientos. Ninguno se llama Sebastián, para que el escenario de §29 pueda registrarlo.
 
 Las fechas de los movimientos de demo son las del momento de la carga.
 
@@ -967,6 +975,10 @@ Rutas: `/customers`, `/purchases`, `/points`, `/rewards`, `/redemptions`. Tablas
 ---
 
 ## 34. Versión y registro de cambios
+
+### 1.6 — 2026-10-28
+
+- Datos de demo concretos y carga todo o nada con `TransactionTemplate`.
 
 ### 1.5 — 2026-10-28
 

@@ -52,7 +52,7 @@
 - Verificar con `\d redemptions` la cascada hacia el cliente y la ausencia de cascada hacia la recompensa.
 - Tests: canje válido, saldo insuficiente sin cambios, recompensa inactiva, reversión de la transacción, cascada al eliminar un cliente y dos canjes simultáneos que superan el saldo.
 
-## Fase 6 — Datos de demo
+## Fase 6 — Datos de demo (completada)
 - Crear `DemoDataLoader` (perfil `demo`, después de `RewardSeeder`) con tres clientes ficticios creados a través de los Services: uno con saldo suficiente para canjear, uno con saldo bajo y uno sin movimientos.
 - Cargar solo si la tabla `customers` está vacía.
 - No incluir un cliente llamado Sebastián (el escenario A del SPECS §29 lo registra).
