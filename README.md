@@ -14,7 +14,7 @@ Aplicación web para una tienda de café donde los clientes acumulan puntos con 
 |---|---|
 | ![Detalle de puntos con saldo, compras y canjes](docs/points.png) | ![Catálogo con las cuatro recompensas](docs/rewards.png) |
 
-Vista móvil, con el menú en dos filas y las tablas con desplazamiento horizontal:
+Vista móvil de la pantalla de inicio: el menú se reorganiza en dos filas y las tarjetas ocupan todo el ancho:
 
 <img src="docs/mobile.png" alt="Vista móvil de la aplicación" width="300">
 
