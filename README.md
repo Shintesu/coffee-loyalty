@@ -6,14 +6,26 @@ Aplicación web para una tienda de café donde los clientes acumulan puntos con 
 
 ## Capturas y demo
 
-_Pendiente (Fase 8). Los archivos viven en `docs/`._
+![Escenario principal: cliente nuevo, compra de $50.99, canje de una recompensa y un segundo canje rechazado por saldo insuficiente](docs/demo.gif)
 
-| Pantalla | Archivo |
+*Escenario principal: una compra de $50.99 suma 51 puntos (redondeo al dólar más cercano), un canje de 30 puntos deja el saldo en 21 y un segundo canje de 50 puntos se rechaza por saldo insuficiente.*
+
+| Detalle de puntos | Catálogo de recompensas |
 |---|---|
-| Detalle de puntos con historial | `docs/points.png` |
-| Catálogo de recompensas | `docs/rewards.png` |
-| Canje rechazado por saldo insuficiente | `docs/redemption-rejected.png` |
-| Recorrido completo (GIF) | `docs/demo.gif` |
+| ![Detalle de puntos con saldo, compras y canjes](docs/points.png) | ![Catálogo con las cuatro recompensas](docs/rewards.png) |
+
+Vista móvil, con el menú en dos filas y las tablas con desplazamiento horizontal:
+
+<img src="docs/mobile.png" alt="Vista móvil de la aplicación" width="300">
+
+## Qué demuestra este proyecto
+
+- **Reglas de negocio en una capa de servicios**, con arquitectura `Controller → Service → Repository`.
+- **Consistencia del saldo:** cada compra o canje actualiza el saldo y guarda el movimiento en una sola transacción, con bloqueo pesimista del cliente para que dos canjes simultáneos no lo dejen en negativo, comprobado con una prueba de concurrencia.
+- **Dinero con `BigDecimal` y una regla de redondeo explícita** (`HALF_UP`), probada en sus casos límite.
+- **Tiempo controlable:** el `Clock` se inyecta, así que las pruebas usan fechas fijas.
+- **Pruebas en tres niveles:** unitarias con Mockito, de integración contra PostgreSQL real y de flujo web con `MockMvc`; más de 90 en total.
+- **Datos de demo idempotentes y atómicos**, cargados con un perfil de Spring.
 
 ## Funcionalidades
 
@@ -132,11 +144,11 @@ Las fechas se registran y se muestran en UTC.
 ./mvnw test
 ```
 
-Necesita la base `coffee_loyalty_test` creada. Las pruebas unitarias de los Services usan `Clock.fixed` y Mockito; las de integración corren contra PostgreSQL local, sin H2 ni Testcontainers.
+Necesita la base `coffee_loyalty_test` creada. Hay más de 90 pruebas: unitarias de los Services (con `Clock.fixed` y Mockito), de integración contra PostgreSQL local (persistencia, cascada, reversión de transacciones, concurrencia y datos de demo, sin H2 ni Testcontainers) y de flujo web con `MockMvc` (rutas, validaciones, mensajes y escenarios de demo).
 
 ## Escenarios de demo
 
-1. **Compra, acumulación y canje:** registrar un cliente, comprar $50.00 (50 puntos), canjear una recompensa de 30 puntos (quedan 20) e intentar una de 50, que se rechaza.
+1. **Compra, acumulación y canje:** registrar un cliente, comprar $50.99 (51 puntos, por el redondeo al dólar más cercano), canjear una recompensa de 30 puntos (quedan 21) e intentar una de 50, que se rechaza.
 2. **Precio terminado en .99:** una compra de $9.99 genera 10 puntos.
 3. **Corregir y eliminar:** editar un email y eliminar un cliente con movimientos, con confirmación.
 
