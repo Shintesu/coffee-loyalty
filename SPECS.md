@@ -510,7 +510,7 @@ Los errores de validación y los errores de negocio (email duplicado, recompensa
 
 ## 17. Pantallas Thymeleaf
 
-Todas comparten un fragmento de navegación (`fragments/layout.html`). Los montos se muestran como `$1,234.50`, con separadores explícitos para no depender del locale; las fechas, como `dd/MM/yyyy HH:mm`.
+Todas comparten un fragmento de navegación (`fragments/layout.html`). Los montos se muestran como `$1,234.50`, con separadores explícitos para no depender del locale; las fechas de compras y canjes, como `dd/MM/yyyy HH:mm`, y la fecha de incorporación del cliente, como `dd/MM/yyyy` (sin hora).
 
 ### 17.1 Inicio (`/`)
 
@@ -536,7 +536,7 @@ Monto (USD)
 [Registrar compra]
 ```
 
-Texto de ayuda: "1 punto por cada dólar, redondeado al más cercano". Tras registrar: "Compra registrada correctamente. Puntos obtenidos: 10".
+Texto de ayuda: "1 punto por cada dólar, redondeado al más cercano". Tras registrar: "Compra registrada correctamente. Puntos obtenidos: 10. Saldo actual: 10." (con el saldo del cliente después de la compra).
 
 ### 17.5 Historial de compras (`/purchases`)
 
@@ -581,6 +581,8 @@ Bean Validation en los formularios. Los mensajes están en español.
 
 Longitudes máximas: nombre de cliente 100, email 150, nombre de recompensa 100 y descripción de recompensa 255. La longitud de cada columna coincide con su límite.
 
+Un valor que no puede convertirse al tipo del campo (texto en lugar de un número en el monto, o un identificador no numérico) se rechaza con los mensajes de `messages.properties`: "El monto debe ser un número válido.", "Seleccione un cliente." y "Seleccione una recompensa.". Así nunca se muestra el texto técnico de Spring.
+
 Las reglas de negocio (saldo suficiente, recompensa activa, email único) las valida el Service, no el controller.
 
 ---
@@ -597,7 +599,7 @@ Excepciones de negocio, todas sin chequear, con el mensaje en español que ve la
 | `InactiveRewardException` | Recompensa inactiva | "La recompensa Combo de café no está disponible." |
 | `InsufficientPointsException` | Saldo menor al costo | "Ana Torres tiene 20 puntos y la recompensa Combo de café requiere 50." |
 
-- Los errores de formulario y los errores de negocio de un `POST` se muestran dentro del formulario.
+- Los errores de formulario y los errores de negocio de un `POST` se muestran dentro del formulario. Los valores que no se pueden convertir al tipo del campo usan los mensajes de `messages.properties` (§18).
 - `GlobalExceptionHandler` (un único `@ControllerAdvice`) atiende solo "no encontrado" y muestra la página `error` con estado 404. El mensaje de negocio viaja en el atributo `businessMessage` del modelo, no en el atributo `message` de Spring: así `error.html` nunca muestra textos técnicos de errores inesperados y, sin `businessMessage`, muestra un texto genérico en español.
 - Cualquier error inesperado muestra una página de error genérica. Nunca se muestra un stack trace, SQL ni mensajes del proveedor.
 - Los mensajes nunca contienen credenciales.
@@ -714,7 +716,8 @@ src/main/resources
 │       └── form.html
 │
 ├── application.properties
-└── application-test.properties
+├── application-test.properties
+└── messages.properties
 ```
 
 ---
@@ -856,11 +859,11 @@ Las rutas y plantillas se verifican con pruebas de humo web (`MockMvc`), que com
 ```text
 1. Registrar el cliente "Sebastián" (sebastian@example.com).
 
-2. Registrar una compra de $50.00.
-   → Se generan 50 puntos.
+2. Registrar una compra de $50.99.
+   → Se generan 51 puntos (redondeo al dólar más cercano).
 
 3. Consultar puntos.
-   → Saldo: 50 puntos.
+   → Saldo: 51 puntos.
 
 4. Abrir el catálogo de recompensas.
    → "Postre del día": 30 puntos.
@@ -869,7 +872,7 @@ Las rutas y plantillas se verifican con pruebas de humo web (`MockMvc`), que com
    → Canje aprobado.
 
 6. Consultar puntos de nuevo.
-   → Saldo: 20 puntos.
+   → Saldo: 21 puntos.
 
 7. Intentar canjear "Combo de café" (50 puntos).
    → Rechazado por saldo insuficiente, con el mensaje en el formulario.
@@ -975,6 +978,13 @@ Rutas: `/customers`, `/purchases`, `/points`, `/rewards`, `/redemptions`. Tablas
 ---
 
 ## 34. Versión y registro de cambios
+
+### 1.8 — 2026-10-31
+
+- Mensajes en español para valores no numéricos (`messages.properties`); el mensaje de compra incluye el saldo.
+- Escenario A con una compra de $50.99 (51 puntos, saldo 21 tras el canje).
+- La fecha de incorporación se muestra sin hora.
+- Pruebas de flujo web: edición, borrado, parámetros opcionales, límites del monto, mensajes de éxito y escenarios A y C.
 
 ### 1.7 — 2026-10-29
 

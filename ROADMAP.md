@@ -66,10 +66,11 @@
 - Mejorar la presentación visual sin sobrecargar el proyecto.
 - Revisar que no haya `@Data`, Lombok, `System.out`, `LocalDate.now()` ni `LocalDateTime.now()` en la lógica.
 
-## Fase 8 — Documentación y preparación del portafolio
+## Fase 8 — Documentación y preparación del portafolio (completada)
 - Completar el README con capturas y GIF de los escenarios de demo (en `docs/`).
 - Verificar que no haya credenciales en el repositorio ni en su historial.
 - Revisar la consistencia entre `SPECS.md` y la implementación final.
+- Cerrar los vacíos que reveló la auditoría: pruebas de flujo web (edición, borrado, parámetros opcionales, límites del monto, mensajes de éxito y escenarios A y C) y mensajes en español para valores no numéricos (`messages.properties`).
 - Preparar la explicación de las decisiones técnicas para entrevistas: redondeo de puntos con `HALF_UP`, transacciones, bloqueo pesimista del saldo, cascada con `@OnDelete`, `Clock` inyectado y por qué Java necesita Docker en Render.
 
 ## Fase 9 — Despliegue en Render
