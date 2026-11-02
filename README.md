@@ -2,7 +2,7 @@
 
 Aplicación web para una tienda de café donde los clientes acumulan puntos con sus compras y los canjean por recompensas. Es una demo de portafolio construida con Java 21, Spring Boot y PostgreSQL, con interfaz renderizada en el servidor con Thymeleaf.
 
-> **Demo en línea:** _pendiente (se publica en la Fase 9 del roadmap)_. La demo corre en el plan gratuito de Render con la base en Neon, por lo que puede estar apagada y tardar en despertar. No tiene autenticación: usa solo datos ficticios.
+> **Demo en línea:** https://coffee-loyalty-tebg.onrender.com. Corre en el plan gratuito de Render con la base en Neon: si lleva un rato sin visitas, la primera carga puede tardar uno o dos minutos en despertar. No tiene autenticación, así que solo contiene datos ficticios que cualquiera puede crear, editar o eliminar.
 
 ## Capturas y demo
 
@@ -164,6 +164,7 @@ El guion completo está en [SPECS.md](SPECS.md) §29.
 - **Datos iniciales con `CommandLineRunner`:** idempotentes y creados por los Services, para que los saldos sean coherentes con los movimientos.
 - **Java en Render requiere Docker:** Render ejecuta Java solo mediante una imagen Docker, así que el proyecto incluye un único `Dockerfile` usado solo para desplegar.
 - **Neon para la base de la demo:** su plan gratuito no vence y se reactiva solo tras suspenderse, a diferencia de la base gratuita de Render, que expira a los 30 días.
+- **Arranque limitado por CPU:** en el plan gratuito (0,1 CPU) la JVM arranca en unos 60 segundos, frente a 5 en un PC. Se redujo con inicialización perezosa y sin validar el esquema al arrancar; despertar el servicio tarda unos 80 segundos.
 
 ## Alcance excluido
 
@@ -171,7 +172,7 @@ Autenticación, roles, API pública, microservicios, Docker Compose, Kubernetes,
 
 ## Despliegue
 
-_Pendiente (Fase 9)._ Se desplegará en Render con una imagen Docker y la base de datos en Neon. Como la aplicación no tiene autenticación, la demo usa solo datos ficticios. Ver [SPECS.md](SPECS.md) §30.
+La demo pública corre en Render (plan gratuito) con una imagen Docker construida desde el `Dockerfile` del repositorio, y la base de datos PostgreSQL está en Neon. La configuración se hace con variables de entorno desde el panel de Render, sin secretos en el repositorio. El servicio se duerme tras 15 minutos sin visitas. Como la aplicación no tiene autenticación, solo contiene datos ficticios. Detalle en [SPECS.md](SPECS.md) §30.
 
 ## Documentación del proyecto
 

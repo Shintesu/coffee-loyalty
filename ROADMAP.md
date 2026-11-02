@@ -73,16 +73,16 @@
 - Cerrar los vacíos que reveló la auditoría: pruebas de flujo web (edición, borrado, parámetros opcionales, límites del monto, mensajes de éxito y escenarios A y C) y mensajes en español para valores no numéricos (`messages.properties`).
 - Preparar la explicación de las decisiones técnicas para entrevistas: redondeo de puntos con `HALF_UP`, transacciones, bloqueo pesimista del saldo, cascada con `@OnDelete`, `Clock` inyectado y por qué Java necesita Docker en Render.
 
-## Fase 9 — Despliegue en Render
+## Fase 9 — Despliegue en Render (completada)
 - Desplegar solo cuando el proyecto esté terminado y listo para mostrarse.
 - Releer la documentación vigente de Render y de Neon (plan gratuito y límites) antes de crear recursos.
 - Crear el `Dockerfile` multietapa (`maven:3.9-eclipse-temurin-21` para compilar, `eclipse-temurin:21-jre` para ejecutar; `mvn package -DskipTests`) y un `.dockerignore` con `target`, `.git`, `.idea` y `*.iml`.
 - Crear la base en Neon, en una región cercana a la del servicio de Render, y copiar desde su panel el host, el nombre de la base, el usuario y la contraseña.
 - Armar la URL JDBC (`jdbc:postgresql://HOST/BASE?sslmode=require`) con el usuario y la contraseña en variables aparte: la cadena del panel no es JDBC.
 - Crear el Web Service con runtime Docker desde el repositorio, configurado desde el panel (sin `render.yaml`).
-- Variables en el panel: `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `SPRING_PROFILES_ACTIVE=demo` y `JAVA_TOOL_OPTIONS` con el heap limitado.
-- En el primer arranque, `ddl-auto=update` crea el esquema y los loaders cargan los datos.
-- Medir el arranque en frío y confirmar que cabe en 512 MB; si no, evaluar el plan de pago de Render.
+- Variables en el panel: `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`, `SPRING_PROFILES_ACTIVE=demo` y `JAVA_TOOL_OPTIONS` con el heap limitado y, para acelerar el arranque, `SPRING_MAIN_LAZY_INITIALIZATION`, `SPRING_JPA_HIBERNATE_DDL_AUTO=none` y el tamaño del pool.
+- Crear el esquema y cargar los datos de demo con un arranque local contra Neon antes de crear el servicio, y desplegar después con `ddl-auto=none`.
+- Medir el arranque en frío y confirmar que cabe en 512 MB: la aplicación usa unos 286 MB y despertar el servicio tarda entre 82 y 97 segundos; se reduce con inicialización perezosa y sin validar el esquema al arrancar.
 - La aplicación no tiene autenticación: usar solo datos de demo.
 - Recorrer los escenarios de demo contra la URL pública.
 - Documentar el despliegue y el enlace de la demo en el README, sin secretos y avisando que puede estar apagada.

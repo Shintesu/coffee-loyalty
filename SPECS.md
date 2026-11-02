@@ -904,23 +904,24 @@ Destino de la demo pública: Render, con datos ficticios.
 ### Hechos verificados en la documentación de Render (octubre de 2026)
 
 - Render ejecuta de forma nativa Node.js/Bun, Python, Ruby, Go, Rust y Elixir. **Java requiere desplegar una imagen Docker.**
-- Un servicio web gratuito se apaga tras 15 minutos sin tráfico y tarda alrededor de un minuto en despertar (con una JVM puede tardar más: se mide en la Fase 9).
+- Un servicio web gratuito se apaga tras 15 minutos sin tráfico. Medido en la Fase 9: la aplicación arranca en unos 62 segundos y despertar el servicio tarda entre 82 y 97 segundos (con 0.1 CPU, la JVM es el cuello de botella).
 - El sistema de archivos del servicio gratuito es efímero.
 - Las bases PostgreSQL gratuitas de Render expiran a los 30 días de crearse.
-- El servicio gratuito tiene 512 MB de RAM y 0.1 CPU, según fuentes de terceros; se confirma en la Fase 9.
+- El servicio gratuito tiene 512 MB de RAM y 0.1 CPU, confirmado en el formulario de creación de Render. En local, con los límites de la Fase 9, la aplicación usa unos 286 MB.
 
 ### Decisiones
 
-- Un único `Dockerfile` multietapa en la raíz: compilación con `maven:3.9-eclipse-temurin-21` y ejecución con `eclipse-temurin:21-jre`. La compilación usa `mvn package -DskipTests`, porque las pruebas necesitan una base local. Un `.dockerignore` excluye `target`, `.git`, `.idea` y `*.iml`.
+- Un único `Dockerfile` multietapa en la raíz: compilación con `maven:3.9-eclipse-temurin-21` y ejecución con `eclipse-temurin:21-jre`. La compilación usa `mvn package -DskipTests`, porque las pruebas necesitan una base local. La imagen final se ejecuta con un usuario sin privilegios. Un `.dockerignore` excluye `target`, `.git`, `.idea`, `*.iml`, `.opencode`, `docs` y los `*.md`.
 - La imagen se construye en Render a partir del repositorio; no se instala Docker en el entorno local.
-- Se limita el heap con `JAVA_TOOL_OPTIONS` (por ejemplo `-Xmx` acorde con 512 MB), definido en el panel de Render.
+- La memoria se limita con `JAVA_TOOL_OPTIONS=-Xmx300m -XX:+UseSerialGC -XX:TieredStopAtLevel=1`, definido en el panel de Render.
 - La configuración se hace desde el panel de Render, sin `render.yaml`.
-- Variables en el panel: `DB_URL` (formato JDBC, con `?sslmode=require`), `DB_USERNAME`, `DB_PASSWORD`, `SPRING_PROFILES_ACTIVE=demo` y `JAVA_TOOL_OPTIONS`. Render define `PORT`.
+- Variables en el panel: `DB_URL` (formato JDBC, con `?sslmode=require`), `DB_USERNAME`, `DB_PASSWORD`, `SPRING_PROFILES_ACTIVE=demo`, `JAVA_TOOL_OPTIONS` y, para acelerar el arranque, `SPRING_MAIN_LAZY_INITIALIZATION=true`, `SPRING_JPA_HIBERNATE_DDL_AUTO=none` y `SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=5`. Render define `PORT` (10000 por defecto) y la aplicación lo lee. `ddl-auto=none` es válido porque el esquema y los datos de demo se crearon antes con un arranque local contra Neon; si el esquema cambia, hay que volver a `update` en un despliegue.
 - **Base de datos: Neon**, PostgreSQL gestionado con plan gratuito sin vencimiento (0.5 GB y 100 horas de cómputo por proyecto al mes, verificado en octubre de 2026). Se suspende tras unos minutos de inactividad y se reactiva sola; el primer acceso tras la pausa es más lento. Se descartaron la base gratuita de Render (expira a los 30 días), Supabase (se pausa tras 7 días de inactividad y se reactiva a mano) y Aiven (se apaga por inactividad y se enciende a mano).
-- **URL de conexión:** las cadenas de Postgres gestionado (la de Render, por ejemplo, es `postgresql://USUARIO:CLAVE@HOST:PUERTO/BASE`) no son JDBC y llevan las credenciales dentro. Se arma `DB_URL=jdbc:postgresql://HOST/BASE?sslmode=require` y el usuario y la contraseña van en `DB_USERNAME` y `DB_PASSWORD`. Los datos se copian desde el panel de Neon en la Fase 9.
-- El primer arranque crea el esquema (`ddl-auto=update`) y carga recompensas y datos de demo.
+- **URL de conexión:** las cadenas de Postgres gestionado (la de Render, por ejemplo, es `postgresql://USUARIO:CLAVE@HOST:PUERTO/BASE`) no son JDBC y llevan las credenciales dentro. Se arma `DB_URL=jdbc:postgresql://HOST/BASE?sslmode=require` y el usuario y la contraseña van en `DB_USERNAME` y `DB_PASSWORD`. Los datos se copian desde el panel de Neon, con la conexión directa (sin `-pooler`) y solo `sslmode=require`: la cadena del panel añade `channel_binding=require`, que se omite.
+- El esquema y los datos de demo se crearon con un arranque local contra Neon, antes de crear el servicio en Render. Si algún visitante elimina todos los clientes, un reinicio vuelve a cargar los datos de demo.
 - La aplicación no tiene autenticación: cualquiera con la URL puede crear, editar y eliminar datos. Solo datos ficticios.
-- Sin dominio propio la demo corre en el dominio de Render.
+- Sin dominio propio la demo corre en el dominio de Render: https://coffee-loyalty-tebg.onrender.com
+- Para evitar el arranque en frío se puede usar un monitor externo gratuito (UptimeRobot) que visite la página de inicio cada pocos minutos; según fuentes de terceros, el plan gratuito incluye 750 horas de instancia al mes, suficientes para un solo servicio siempre activo.
 
 ---
 
@@ -978,6 +979,10 @@ Rutas: `/customers`, `/purchases`, `/points`, `/rewards`, `/redemptions`. Tablas
 ---
 
 ## 34. Versión y registro de cambios
+
+### 1.9 — 2026-11-02
+
+- Despliegue en Render con la base en Neon: datos medidos (memoria, arranque y arranque en frío), variables finales y enlace de la demo.
 
 ### 1.8 — 2026-10-31
 
