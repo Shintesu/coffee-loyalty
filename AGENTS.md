@@ -1,5 +1,3 @@
-[English](README.md) | **Español**
-
 # AGENTS.md
 
 Instrucciones para agentes de IA y para quien contribuya a **Tienda de Café · App de Fidelización**. Este archivo apunta a los demás documentos en lugar de copiarlos: ante cualquier duda, el documento enlazado manda.
