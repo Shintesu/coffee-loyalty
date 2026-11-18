@@ -1,3 +1,5 @@
+[English](README.md) | **Español**
+
 # Tienda de Café · App de Fidelización
 
 Aplicación web para una tienda de café donde los clientes acumulan puntos con sus compras y los canjean por recompensas. Es una demo de portafolio construida con Java 21, Spring Boot y PostgreSQL, con interfaz renderizada en el servidor con Thymeleaf.
