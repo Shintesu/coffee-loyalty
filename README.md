@@ -172,7 +172,7 @@ Autenticación, roles, API pública, microservicios, Docker Compose, Kubernetes,
 
 ## Despliegue
 
-La demo pública corre en Render (plan gratuito) con una imagen Docker construida desde el `Dockerfile` del repositorio, y la base de datos PostgreSQL está en Neon. La configuración se hace con variables de entorno desde el panel de Render, sin secretos en el repositorio. El servicio se duerme tras 15 minutos sin visitas. Como la aplicación no tiene autenticación, solo contiene datos ficticios. Detalle en [SPECS.md](SPECS.md) §30.
+La demo pública corre en Render (plan gratuito) con una imagen Docker construida desde el `Dockerfile` del repositorio, y la base de datos PostgreSQL está en Neon. La configuración se hace con variables de entorno desde el panel de Render, sin secretos en el repositorio. El servicio se mantiene siempre despierto. Como la aplicación no tiene autenticación, solo contiene datos ficticios. Detalle en [SPECS.md](SPECS.md) §30.
 
 ## Documentación del proyecto
 
