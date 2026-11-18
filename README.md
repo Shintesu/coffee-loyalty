@@ -2,7 +2,7 @@
 
 Aplicación web para una tienda de café donde los clientes acumulan puntos con sus compras y los canjean por recompensas. Es una demo de portafolio construida con Java 21, Spring Boot y PostgreSQL, con interfaz renderizada en el servidor con Thymeleaf.
 
-> **Demo en línea:** https://coffee-loyalty-tebg.onrender.com. Corre en el plan gratuito de Render con la base en Neon: si lleva un rato sin visitas, la primera carga puede tardar uno o dos minutos en despertar. No tiene autenticación, así que solo contiene datos ficticios que cualquiera puede crear, editar o eliminar.
+> **Demo en línea:** https://coffee-loyalty-tebg.onrender.com. Corre en el plan gratuito de Render con la base en Neon: siempre encendida a menos que haya una caída de servidores. No tiene autenticación, así que solo contiene datos ficticios que cualquiera puede crear, editar o eliminar.
 
 ## Capturas y demo
 
