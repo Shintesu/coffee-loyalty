@@ -178,7 +178,7 @@ La demo pública corre en Render (plan gratuito) con una imagen Docker construid
 
 ## Desarrollo asistido por IA
 
-Este proyecto se construyó con un flujo guiado por especificaciones, usando agentes de IA para programar (Claude y opencode con DeepSeek). El alcance y las decisiones se documentan primero en la especificación y en el roadmap por fases, y las reglas para los agentes están en `AGENTS.md`. Cada fase se cierra con revisión manual y pruebas automatizadas. Ver *Documentación del proyecto* más abajo.
+Este proyecto se construyó con un flujo guiado por especificaciones, usando agentes de IA para programar (Claude y opencode con DeepSeek). El alcance y las decisiones se documentan primero en la especificación y en el roadmap por fases, y las reglas para los agentes están en `AGENTS.md`. Cada fase se cierra tras revisar los cambios de código, probar la aplicación en ejecución a mano y pasar las pruebas automatizadas. Ver *Documentación del proyecto* más abajo.
 
 ## Documentación del proyecto
 
