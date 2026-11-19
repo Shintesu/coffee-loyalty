@@ -176,6 +176,10 @@ Autenticación, roles, API pública, microservicios, Docker Compose, Kubernetes,
 
 La demo pública corre en Render (plan gratuito) con una imagen Docker construida desde el `Dockerfile` del repositorio, y la base de datos PostgreSQL está en Neon. La configuración se hace con variables de entorno desde el panel de Render, sin secretos en el repositorio. El servicio se mantiene siempre despierto. Como la aplicación no tiene autenticación, solo contiene datos ficticios. Detalle en [SPECS.md](SPECS.md) §30.
 
+## Desarrollo asistido por IA
+
+Este proyecto se construyó con un flujo guiado por especificaciones, usando agentes de IA para programar (Claude y opencode con DeepSeek). El alcance y las decisiones se documentan primero en la especificación y en el roadmap por fases, y las reglas para los agentes están en `AGENTS.md`. Cada fase se cierra con revisión manual y pruebas automatizadas. Ver *Documentación del proyecto* más abajo.
+
 ## Documentación del proyecto
 
 | Archivo | Contenido |
