@@ -176,6 +176,10 @@ Authentication, roles, public API, microservices, Docker Compose, Kubernetes, CI
 
 The public demo runs on Render (free plan) with a Docker image built from the repository's `Dockerfile`, and the PostgreSQL database is on Neon. Configuration is done with environment variables from the Render dashboard, with no secrets in the repository. The service goes to sleep after 15 minutes without visits. Since the application has no authentication, it only contains fictional data. Details in [SPECS.md](SPECS.md) §30.
 
+## AI-assisted development
+
+This project was built with a spec-driven workflow using AI coding agents (Claude, and opencode with DeepSeek). The scope and decisions are written down first in the specification and the phased roadmap, and the rules for the agents live in `AGENTS.md`. Each phase is closed with a manual review and automated tests. See *Project documentation* below.
+
 ## Project documentation
 
 The project documents are written in Spanish.
